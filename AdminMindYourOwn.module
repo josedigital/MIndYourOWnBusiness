@@ -1,0 +1,29 @@
+<?php
+/**
+ * Mind Your Own Business
+ *
+ */
+class AdminMindYourOwn extends WireData implements Module {
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'Mind Your Own Business', 
+			'version' => 1, 
+			'summary' => 'Custom module to allow users only to edit pages they created.',
+			'author' => 'alex rodriguez, horchatadesign.com',
+			'singular' => true, 
+			'autoload' => true, 
+			);
+	}
+
+	public function init() {
+	    if($this->user->hasRole("author")) $this->addHookAfter("Page::editable", $this, 'editable'); 
+	}
+
+	public function editable(HookEvent $event) {
+	    // abort if no access
+	    if(!$event->return) return; 
+	    $page = $event->object; 
+	    // criteria required in order to edit
+	    if($this->user !== $page->createdUser) $event->return = false; 
+	}
+}
