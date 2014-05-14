@@ -1,4 +1,4 @@
-MIndYourOWnBusiness
+MIndYourOwnBusiness
 ===================
 
 processwire module allows users to edit only content they've created. assumes 'author' role.
